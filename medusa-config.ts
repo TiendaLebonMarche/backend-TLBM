@@ -6,16 +6,26 @@ module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     redisUrl: process.env.REDIS_URL,
+    // medusa-config.ts
+
+// ... imports anteriores ...
+
+module.exports = defineConfig({
+  projectConfig: {
+    databaseUrl: process.env.DATABASE_URL,
+    redisUrl: process.env.REDIS_URL, // Redis opcionalmente acepta undefined en algunos módulos, pero es bueno revisar.
     http: {
-      storeCors: process.env.STORE_CORS,
-      adminCors: process.env.ADMIN_CORS,
-      authCors: process.env.AUTH_CORS,
+      // AQUÍ ESTÁ EL ARREGLO: Agregamos un fallback "||" para asegurar que sea string
+      storeCors: process.env.STORE_CORS || "http://localhost:8000",
+      adminCors: process.env.ADMIN_CORS || "http://localhost:9000",
+      authCors: process.env.AUTH_CORS || "http://localhost:9000",
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
-    // Esto es crucial para Railway (host 0.0.0.0)
     workerMode: process.env.MEDUSA_WORKER_MODE as "shared" | "worker" | "server",
   },
+  // ... el resto de tus módulos ...
+})
   modules: [
     {
       resolve: "@medusajs/medusa/cache-redis",
