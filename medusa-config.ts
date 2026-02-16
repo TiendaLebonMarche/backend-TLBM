@@ -17,10 +17,9 @@ module.exports = defineConfig({
     // Forzamos el tipo para que TypeScript no se queje del Worker Mode
     workerMode: (process.env.MEDUSA_WORKER_MODE as "shared" | "worker" | "server") || "shared",
   },
-  admin: {
-    // Esto deshabilita la comprobación estricta en el build para evitar errores menores
-    disablePostBuild: true, 
-  },
+  // admin: {
+  //   disablePostBuild: true, // Propiedad inválida eliminada
+  // },
   modules: [
     {
       resolve: "@medusajs/medusa/cache-redis",
