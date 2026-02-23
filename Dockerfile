@@ -17,7 +17,10 @@ COPY . .
 # AUMENTAMOS EL LÍMITE DE MEMORIA DE NODE.JS PARA EL BUILD DE MEDUSA
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Construimos el proyecto
+
+# Limpiamos node_modules y cache antes del build para evitar problemas de caché
+RUN rm -rf node_modules && npm cache clean --force
+RUN npm install
 RUN npm run build
 
 EXPOSE 9000
